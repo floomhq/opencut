@@ -1,0 +1,8 @@
+node_modules/
+dist/
+out/
+*.mp4
+*.mov
+*.mp3
+.DS_Store
+WORKPLAN-*.md

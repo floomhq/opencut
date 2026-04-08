@@ -1,0 +1,24 @@
+{
+  "name": "video-engine",
+  "version": "1.0.0",
+  "description": "Remotion-based video production engine for product demo videos. Transcript-first workflow with word-level subtitles, face-cam bubbles, keyword overlays, and notification banners.",
+  "scripts": {
+    "preview": "npx remotion studio src/examples/openslides/index.ts",
+    "render": "timeout 10m npx remotion render src/examples/openslides/index.ts OpenSlidesDemo out/openslides-demo.mp4",
+    "render-preview": "timeout 5m npx remotion render src/examples/openslides/index.ts OpenSlidesDemoPreview out/openslides-preview.mp4",
+    "render-test": "timeout 5m npx remotion render src/examples/openslides/index.ts OpenSlidesDemoPreview --frames=0-149 out/openslides-test-5s.mp4",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@remotion/bundler": "4.0.446",
+    "@remotion/cli": "4.0.446",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "remotion": "4.0.446"
+  },
+  "devDependencies": {
+    "@types/react": "19.1.1",
+    "@types/react-dom": "19.1.3",
+    "typescript": "5.8.3"
+  }
+}
