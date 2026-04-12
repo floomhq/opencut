@@ -1,8 +1,29 @@
 # OpenCut
 
-Remotion-based video production engine. Define a timeline, point it at your footage and transcript, render a polished video.
+![License: MIT](https://img.shields.io/badge/License-MIT-green.svg) ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue.svg) ![Remotion](https://img.shields.io/badge/Remotion-4.x-blueviolet.svg)
 
-Built for product demo videos: word-level subtitles, face-cam bubbles, keyword overlays, notification banners, title/end cards.
+Open-source, AI-powered video production engine built on Remotion. Define a timeline, point it at your footage and transcript, render a polished video.
+
+Built for product demo videos, LinkedIn content, and social media clips: word-level captions/subtitles, face-cam bubbles, keyword overlays, notification banners, title/end cards.
+
+## Features
+
+- **AI transcription via Whisper** — word-level captions and subtitles with active-word highlighting, powered by OpenAI Whisper
+- **LinkedIn & social media ready** — renders 1080p/1920p MP4s optimized for content creation on LinkedIn, YouTube, and other platforms
+- **Timeline-driven** — declarative TypeScript timeline segments; no drag-and-drop, no UI bloat
+- **Face-cam picture-in-picture** — circular face bubble with configurable position, size, and filters
+- **Keyword overlays** — large animated text callouts to emphasize key moments
+- **Notification banners** — macOS-style slide-in popups (WhatsApp, iMessage, generic)
+- **Title and end cards** — full-screen branded cards with CTA
+- **Open source** — MIT license, fully hackable TypeScript/React codebase
+
+## Powered by
+
+| Tool | Role |
+|------|------|
+| [Remotion](https://remotion.dev) | React-based programmatic video rendering |
+| [Whisper](https://github.com/openai/whisper) | AI speech-to-text for word-level captions |
+| TypeScript + React | Type-safe timeline and component authoring |
 
 ## How it works
 
@@ -19,7 +40,7 @@ out/video.mp4
 ```
 
 1. **Record** raw facecam footage, screen recordings, and screenshots.
-2. **Transcribe** with Whisper using `--word_timestamps True` for word-level timing.
+2. **Transcribe** with Whisper (AI speech-to-text) using `--word_timestamps True` for word-level captions and timing.
 3. **Define a timeline** as an array of `TimelineSegment` objects that map sections of your recording to visual backgrounds and overlays.
 4. **Configure** playback rate, resolution, facecam path, and background music in a `VideoConfig`.
 5. **Render** with the Remotion CLI.
@@ -45,7 +66,7 @@ src/
     Composition.tsx         # Sequences timeline segments + audio
     Segment.tsx             # Renders one segment (background + overlays)
     FaceBubble.tsx          # Circular face-cam PiP
-    SubtitleOverlay.tsx     # Word-level subtitles with active word highlight
+    SubtitleOverlay.tsx     # Word-level captions/subtitles with active word highlight
     KeywordOverlay.tsx      # Large keyword text overlays
     TitleCard.tsx           # Full-screen title card
     EndCard.tsx             # Full-screen end card with CTA
@@ -143,7 +164,7 @@ export const RemotionRoot: React.FC = () => (
 );
 ```
 
-Place assets in `public/`, then render:
+Place assets in `public/` (create the directory if it doesn't exist — it is gitignored), then render:
 
 ```bash
 npx remotion render src/examples/your-project/index.ts MyVideo out/my-video.mp4
@@ -156,7 +177,7 @@ npx remotion render src/examples/your-project/index.ts MyVideo out/my-video.mp4
 | `VideoComposition` | Top-level component. Takes timeline, config, subtitles; sequences everything into the final video. |
 | `Segment` | Renders one timeline segment: background (facecam/screenshot/video/slides) + overlays. |
 | `FaceBubble` | Circular face-cam picture-in-picture. Configurable position, size, and filters. |
-| `SubtitleOverlay` | Groups words into 3-7 word phrases, highlights the active word. |
+| `SubtitleOverlay` | Groups words into 3-7 word phrases, highlights the active word. AI-transcribed captions/subtitles from Whisper. |
 | `KeywordOverlay` | Large uppercase text with scale-in animation, positioned at the top. |
 | `TitleCard` | Full-screen title overlay with configurable text and colors. |
 | `EndCard` | Full-screen end card with CTA button and URL pill. |
