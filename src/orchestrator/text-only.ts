@@ -95,6 +95,20 @@ export async function runTextOnlyPipeline(req: TextOnlyRequest): Promise<void> {
 
     // ── Step 4: ffmpeg render ────────────────────────────────────────────────
     updateJob(jobId, { phase: "rendering" });
+
+    // Probe actual voiceover duration and scale clip durations to match.
+    // ElevenLabs TTS speaks at a rate that may differ from the planner's WPM
+    // estimate, causing a silent tail if video > audio. We scale all clip
+    // durations proportionally so total video time = actual audio time.
+    const actualAudioSec = await probeVideoDuration(voicePath);
+    const plannedTotalSec = clips.reduce((sum, c) => sum + c.durationSec, 0);
+    if (actualAudioSec > 0 && Math.abs(actualAudioSec - plannedTotalSec) > 0.5) {
+      const scale = actualAudioSec / plannedTotalSec;
+      for (const clip of clips) {
+        clip.durationSec = parseFloat((clip.durationSec * scale).toFixed(3));
+      }
+    }
+
     const out = outputFile(jobId);
     await renderWithFfmpeg({
       clips,
