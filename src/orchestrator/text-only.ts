@@ -88,6 +88,7 @@ export async function runTextOnlyPipeline(req: TextOnlyRequest): Promise<void> {
           videoPath: clipPath,
           durationSec,
           caption: scene.caption ?? undefined,
+          narrationText: scene.narrationText,
         };
       }),
     );

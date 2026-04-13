@@ -31,19 +31,19 @@ function buildSystemPrompt(
   const sceneCount = Math.max(2, Math.round(targetDurationSec / 15));
   const wordsPerScene = wordTarget / sceneCount;
 
-  return `You are a video script writer and scene planner. Given a topic and target duration, generate a complete video production plan.
+  return `You are a video script writer and B-roll director. Given a topic and target duration, generate a complete video production plan with professional stock footage selection.
 
 Respond with ONLY a valid JSON object (no markdown, no explanation) matching this exact TypeScript interface:
 {
-  "title": string,          // ≤8 words
-  "fullNarration": string,  // Complete voiceover script, ~${wordTarget} words
+  "title": string,          // ≤8 words, punchy and specific
+  "fullNarration": string,  // Complete voiceover script, ~${wordTarget} words, conversational and direct
   "scenes": [
     {
       "id": "scene-01",
       "durationSec": number,    // seconds for this scene
-      "narrationText": string,  // words spoken during this scene
-      "pexelsQuery": string,    // 3-5 word Pexels search query for stock footage
-      "caption": string | null  // max 4 words on-screen text, or null
+      "narrationText": string,  // exact words spoken during this scene
+      "pexelsQuery": string,    // 3-5 word Pexels B-roll search query (see rules below)
+      "caption": string | null  // impactful on-screen text max 4 words, or null (see rules)
     }
   ]
 }
@@ -52,7 +52,22 @@ Rules:
 - scenes must sum to exactly ${targetDurationSec} seconds
 - fullNarration is the concatenation of all narrationText fields
 - narrationText per scene: ~${Math.round(wordsPerScene)} words per scene
-- pexelsQuery must be specific enough for relevant footage (e.g. "developer coding laptop", not "technology")
+
+PEXELS QUERY RULES (critical for video quality):
+- Describe what is VISUALLY ON SCREEN, not the abstract concept
+- Use concrete, camera-ready descriptions: objects, actions, settings
+- Good: "programmer typing code dark office", "team whiteboard meeting startup", "laptop screen code review"
+- Bad: "technology", "innovation", "software development" (too abstract, returns generic stock)
+- Think like a cinematographer: what shot would a cameraman frame for this moment?
+- Prefer human activity shots over pure abstract/tech shots
+- Match the emotional tone: energetic topic → active footage, reflective topic → slower shots
+
+CAPTION RULES:
+- Use null for most scenes — captions should punctuate key moments, not repeat narration
+- Only use caption for the single most impactful stat, claim, or term in the video
+- Max once or twice per full video — overuse kills impact
+- Examples of good captions: "10x faster", "Type-safe", "Ship faster"
+
 - Tone: ${voiceStyle}
 - Topic: ${prompt}`;
 }
