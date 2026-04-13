@@ -15,7 +15,7 @@ export interface TtsOptions {
   text: string;
   voice?: VoiceId; // default: "rachel"
   outputPath: string; // absolute path where .mp3 is saved
-  modelId?: string; // default: "eleven_multilingual_v2"
+  modelId?: string; // default: "eleven_turbo_v2_5" (free-tier compatible)
 }
 
 export async function textToSpeech(opts: TtsOptions): Promise<string> {
@@ -25,7 +25,7 @@ export async function textToSpeech(opts: TtsOptions): Promise<string> {
   }
 
   const voice = opts.voice ?? "rachel";
-  const modelId = opts.modelId ?? "eleven_multilingual_v2";
+  const modelId = opts.modelId ?? "eleven_turbo_v2_5";
   const voiceId = VOICE_IDS[voice];
 
   const url = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}/stream`;
