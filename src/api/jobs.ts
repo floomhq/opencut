@@ -7,6 +7,8 @@ const JOBS_DIR = path.resolve(process.cwd(), "jobs");
 export interface Job {
   jobId: string;
   status: "queued" | "running" | "done" | "error";
+  /** Current pipeline phase (e.g. "planning", "tts", "footage", "rendering"). */
+  phase?: string;
   createdAt: string;
   updatedAt: string;
   error?: string;
@@ -22,6 +24,11 @@ function statusFile(jobId: string): string {
 
 export function outputFile(jobId: string): string {
   return path.join(jobDir(jobId), "output.mp4");
+}
+
+/** Returns the assets directory for a job (created on first use by the orchestrator). */
+export function jobAssetsDir(jobId: string): string {
+  return path.join(jobDir(jobId), "assets");
 }
 
 export function createJob(): Job {

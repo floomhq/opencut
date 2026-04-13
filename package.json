@@ -12,9 +12,11 @@
     "api:start": "node dist/api/server.js"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@remotion/bundler": "4.0.446",
     "@remotion/cli": "4.0.446",
     "@remotion/renderer": "^4.0.446",
+    "axios": "^1.15.0",
     "express": "^5.2.1",
     "multer": "^2.1.1",
     "react": "19.1.0",

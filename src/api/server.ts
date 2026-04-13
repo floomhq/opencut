@@ -2,6 +2,8 @@ import express, { Request, Response } from "express";
 import fs from "fs";
 import { createJob, getJob, outputFile } from "./jobs";
 import { renderJob } from "./renderer";
+import { runTextOnlyPipeline } from "../orchestrator/text-only";
+import type { VoiceId } from "../tools/elevenlabs";
 
 const app = express();
 app.use(express.json());
@@ -61,6 +63,35 @@ app.get("/jobs/:id/download", (req: Request, res: Response) => {
     return;
   }
   res.download(out, "output.mp4");
+});
+
+// POST /generate — AI text-only video generation
+// Body: { prompt, targetDurationSec?, voice? }
+// Returns: { jobId } — poll GET /jobs/:id for status + phase
+app.post("/generate", (req: Request, res: Response) => {
+  const { prompt, targetDurationSec, voice } = req.body as {
+    prompt?: string;
+    targetDurationSec?: number;
+    voice?: VoiceId;
+  };
+
+  if (!prompt) {
+    res.status(400).json({ error: "prompt is required" });
+    return;
+  }
+
+  const job = createJob();
+
+  runTextOnlyPipeline({
+    jobId: job.jobId,
+    prompt,
+    targetDurationSec,
+    voice,
+  }).catch((err: unknown) =>
+    console.error(`[orchestrator] job ${job.jobId} failed:`, err),
+  );
+
+  res.status(202).json({ jobId: job.jobId });
 });
 
 const PORT = Number(process.env.PORT ?? 3100);
