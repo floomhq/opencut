@@ -26,7 +26,7 @@ function buildSystemPrompt(
   targetDurationSec: number,
   voiceStyle: string,
 ): string {
-  const wordsPerMinute = 155;
+  const wordsPerMinute = 160;
   const wordTarget = Math.round((targetDurationSec / 60) * wordsPerMinute);
   const sceneCount = Math.max(2, Math.round(targetDurationSec / 15));
   const wordsPerScene = wordTarget / sceneCount;
