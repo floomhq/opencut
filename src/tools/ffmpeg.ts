@@ -72,7 +72,12 @@ export async function renderWithFfmpeg(
         .replace(/\[/g, "\\[")
         .replace(/\]/g, "\\]");
 
-      videoFilter += `,drawtext=text='${escapedCaption}':font=Arial:fontsize=60:fontcolor=white:borderw=3:bordercolor=black:x=(w-text_w)/2:y=h-120`;
+      // Use fontfile for cross-platform compatibility (Linux: DejaVu Sans, Mac: fallback to system)
+      const fontFile =
+        process.platform === "linux"
+          ? "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
+          : "/System/Library/Fonts/Helvetica.ttc";
+      videoFilter += `,drawtext=fontfile='${fontFile}':text='${escapedCaption}':fontsize=60:fontcolor=white:borderw=3:bordercolor=black:x=(w-text_w)/2:y=h-120`;
     }
 
     videoFilter += `[v${i}]`;
