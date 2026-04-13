@@ -8,6 +8,10 @@
     "render-preview": "timeout 5m npx remotion render src/examples/openslides/index.ts OpenSlidesDemoPreview out/openslides-preview.mp4",
     "render-test": "timeout 5m npx remotion render src/examples/openslides/index.ts OpenSlidesDemoPreview --frames=0-149 out/openslides-test-5s.mp4",
     "typecheck": "tsc --noEmit",
+    "ai-basics:preview": "npx remotion studio src/examples/ai-engineer-basics/index.ts",
+    "ai-basics:render": "timeout 30m npx remotion render src/examples/ai-engineer-basics/index.ts AiEngineerBasics out/ai-engineer-basics.mp4",
+    "ai-basics:preview-render": "timeout 5m npx remotion render src/examples/ai-engineer-basics/index.ts AiEngineerBasicsPreview out/ai-engineer-basics-preview.mp4",
+    "ai-basics:test": "timeout 5m npx remotion render src/examples/ai-engineer-basics/index.ts AiEngineerBasicsPreview --frames=0-149 out/ai-engineer-basics-test-5s.mp4",
     "api:dev": "node --require ts-node/register src/api/server.ts",
     "api:start": "node dist/api/server.js"
   },
