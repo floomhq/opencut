@@ -84,6 +84,33 @@ export const TIMELINE: TimelineSegment[] = [
       { text: "Staging Preview", startSec: 73, endSec: 77 },
       { text: "Preview Mode", startSec: 92, endSec: 96 },
     ],
+    inlinePanels: [
+      {
+        title: "Working with Git Branches",
+        items: [
+          "New features isolated from main code",
+          "Bug fixes developed on separate tracks",
+          "Prevents breaking the working application",
+          "Merge only when feature is complete",
+        ],
+        itemStyle: "bullets",
+        startSec: 61,
+        endSec: 68,
+      },
+      {
+        title: "The Staging Pipeline",
+        items: [
+          "Develop feature in isolated branch",
+          "Push to Preview (production copy)",
+          "Verify and test in live mode",
+          "Merge to production once confirmed",
+        ],
+        itemStyle: "numbered",
+        startSec: 77,
+        endSec: 85,
+        position: "bottom-right",
+      },
+    ],
   },
 
   // 105-115s: Branches & PRs slide (screen-static with facecam PiP)
@@ -118,6 +145,33 @@ export const TIMELINE: TimelineSegment[] = [
       { text: "Atomic Commits", startSec: 148, endSec: 152 },
       { text: "Rollback", startSec: 157, endSec: 161 },
     ],
+    inlinePanels: [
+      {
+        title: "What is a Pull Request (PR)?",
+        items: [
+          "A request to merge code changes into main",
+          "Enables review of specific edits before merge",
+          "Shows a file-by-file comparison view",
+          "Acts as a quality gate before production",
+        ],
+        itemStyle: "bullets",
+        startSec: 123,
+        endSec: 130,
+      },
+      {
+        title: "Why Use Atomic Commits?",
+        items: [
+          "One single logical change per commit",
+          "Easier to pin down which commit broke things",
+          "Simple to revert without losing unrelated work",
+          "Creates a readable, searchable project history",
+        ],
+        itemStyle: "bullets",
+        startSec: 145,
+        endSec: 152,
+        position: "bottom-right",
+      },
+    ],
   },
 
   // 164-174s: CI/CD slide (screen-static with facecam PiP)
@@ -150,6 +204,20 @@ export const TIMELINE: TimelineSegment[] = [
       { text: "Tests Run", startSec: 207, endSec: 211 },
       { text: "Tests Pass → Push", startSec: 211, endSec: 215 },
     ],
+    inlinePanels: [
+      {
+        title: "What is CI/CD?",
+        items: [
+          "CI = Continuous Integration: auto-test every push",
+          "CD = Continuous Deployment: auto-ship if tests pass",
+          "Catches regressions before they reach users",
+          "Builds a container image of your full app",
+        ],
+        itemStyle: "bullets",
+        startSec: 177,
+        endSec: 185,
+      },
+    ],
   },
 
   // 220-228s: Testing slide (screen-static with facecam PiP)
@@ -181,6 +249,20 @@ export const TIMELINE: TimelineSegment[] = [
       { text: "Integration", startSec: 234, endSec: 238 },
       { text: "End-to-End", startSec: 239, endSec: 243 },
     ],
+    inlinePanels: [
+      {
+        title: "The Testing Taxonomy",
+        items: [
+          "Unit: test individual functions in isolation",
+          "Integration: test how modules work together",
+          "End-to-End: test full user flows in a browser",
+        ],
+        itemStyle: "numbered",
+        startSec: 229,
+        endSec: 237,
+        position: "bottom-right",
+      },
+    ],
   },
 
   // 244-254s: Deployment slide (screen-static with facecam PiP)
@@ -211,6 +293,21 @@ export const TIMELINE: TimelineSegment[] = [
       { text: "Always Online", startSec: 273, endSec: 277 },
       { text: "Auto-Scaled", startSec: 275, endSec: 279 },
       { text: "Own Server", startSec: 285, endSec: 289 },
+    ],
+    inlinePanels: [
+      {
+        title: "AI Engineer Cloud Stack",
+        items: [
+          "Frontend → Vercel (instant deploys, global CDN)",
+          "Backend → Render or Railway (managed servers)",
+          "Auto-scaling: spins up more capacity on demand",
+          "No manual server setup or SSH required",
+        ],
+        itemStyle: "bullets",
+        startSec: 258,
+        endSec: 266,
+        position: "bottom-right",
+      },
     ],
   },
 
@@ -277,6 +374,20 @@ export const TIMELINE: TimelineSegment[] = [
       { text: "Markdown", startSec: 375, endSec: 379 },
       { text: "GitHub Issues", startSec: 383, endSec: 387 },
       { text: "Tickets", startSec: 388, endSec: 392 },
+    ],
+    inlinePanels: [
+      {
+        title: "Documenting Your Project",
+        items: [
+          "README.md: project summary, setup steps, usage",
+          "Architecture.md: system design decisions",
+          "GitHub Issues: task tracking and bug reports",
+          "CLAUDE.md: instructions for AI agents on the repo",
+        ],
+        itemStyle: "bullets",
+        startSec: 374,
+        endSec: 382,
+      },
     ],
   },
 
