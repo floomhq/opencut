@@ -35,7 +35,7 @@ const DEFAULT_OUTLINE = [
 
 function buildPhrases(segments: SubtitleSegment[]): Phrase[] {
   const MIN_PHRASE = 3;
-  const MAX_PHRASE = 7;
+  const MAX_PHRASE = 5;
   const raw: Phrase[] = [];
 
   for (const seg of segments) {
@@ -143,13 +143,13 @@ export const SubtitleOverlay: React.FC<SubtitleOverlayProps> = ({
 
   const bottomOffset =
     faceBubblePosition === "bottom-left" || faceBubblePosition === "bottom-right"
-      ? (style?.bottomOffsetWithBubble ?? 100)
-      : (style?.bottomOffset ?? 50);
+      ? (style?.bottomOffsetWithBubble ?? 130)
+      : (style?.bottomOffset ?? 80);
 
   const outline = (style?.outline ?? DEFAULT_OUTLINE).join(", ");
   const fontFamily =
     style?.fontFamily ?? "Montserrat, Liberation Sans, Arial Black, sans-serif";
-  const fontSize = style?.fontSize ?? 48;
+  const fontSize = style?.fontSize ?? 72;
   const fontWeight = style?.fontWeight ?? 900;
   const activeColor = style?.activeColor ?? "#F5C518";
   const inactiveColor = style?.inactiveColor ?? "#ffffff";
@@ -173,6 +173,9 @@ export const SubtitleOverlay: React.FC<SubtitleOverlayProps> = ({
           flexWrap: "nowrap",
           justifyContent: "center",
           gap: 10,
+          background: "rgba(0,0,0,0.55)",
+          borderRadius: 10,
+          padding: "6px 18px",
         }}
       >
         {activePhrase.words.map((word, idx) => {
@@ -184,9 +187,8 @@ export const SubtitleOverlay: React.FC<SubtitleOverlayProps> = ({
                 fontFamily,
                 fontSize,
                 fontWeight,
-                fontStyle: "italic",
                 color: isActive ? activeColor : inactiveColor,
-                WebkitTextStroke: "2px #000",
+                WebkitTextStroke: "1.5px #000",
                 textShadow: outline,
                 lineHeight: 1.4,
                 whiteSpace: "nowrap",

@@ -50,9 +50,9 @@ export const InlinePanelOverlay: React.FC<InlinePanelOverlayProps> = ({
         const positionStyle: React.CSSProperties = (() => {
           switch (panel.position ?? "bottom") {
             case "bottom":
-              return { bottom: 140, left: 60, right: 60 };
+              return { bottom: 210, left: 60, right: 60 };
             case "bottom-right":
-              return { bottom: 140, right: 60, width: 700 };
+              return { bottom: 210, right: 60, width: 700 };
             case "center-right":
               return { top: "50%", right: 60, width: 700, transform: "translateY(-50%)" };
           }
