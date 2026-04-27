@@ -9,7 +9,7 @@
  * All functions are frame-based and deterministic.
  */
 
-import { interpolate, spring, type SpringConfig } from "remotion";
+import { type SpringConfig } from "remotion";
 
 // ---------------------------------------------------------------------------
 // Particle system
@@ -292,43 +292,4 @@ export function getKenBurnsTransform(
   return { scale, translateX, translateY };
 }
 
-// ---------------------------------------------------------------------------
-// Beat sync
-// ---------------------------------------------------------------------------
 
-/**
- * Calculate music playback rate to lock transitions to a beat grid.
- *
- * @param sourceBPM - Original tempo of the music track.
- * @param targetBPM - Desired tempo (e.g. derived from fps + frames-per-beat).
- * @returns playbackRate to pass to Remotion `<Audio>`.
- */
-export function getBeatSyncPlaybackRate(
-  sourceBPM: number,
-  targetBPM: number
-): number {
-  return targetBPM / sourceBPM;
-}
-
-/**
- * Convert a beat duration to frames at a given fps.
- *
- * @param beats - Number of beats.
- * @param bpm - Beats per minute.
- * @param fps - Frames per second.
- */
-export function beatsToFrames(beats: number, bpm: number, fps: number): number {
-  const secondsPerBeat = 60 / bpm;
-  return Math.round(beats * secondsPerBeat * fps);
-}
-
-/**
- * Convert a bar duration to frames at a given fps.
- *
- * @param bars - Number of bars (assumes 4/4 time).
- * @param bpm - Beats per minute.
- * @param fps - Frames per second.
- */
-export function barsToFrames(bars: number, bpm: number, fps: number): number {
-  return beatsToFrames(bars * 4, bpm, fps);
-}

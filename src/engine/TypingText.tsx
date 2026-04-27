@@ -62,7 +62,8 @@ export const TypingText: React.FC<TypingTextProps> = ({
     cursor &&
     frame >= startDelay &&
     !isDone &&
-    frame % cursorBlinkFrames < cursorBlinkFrames * 0.6;
+    frame % Math.max(1, cursorBlinkFrames) <
+      Math.max(1, cursorBlinkFrames) * 0.6;
 
   return (
     <span className={className} style={style}>

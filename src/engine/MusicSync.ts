@@ -49,17 +49,11 @@ export function getSyncedMusicVolume(
   fadeInFrames: number,
   fadeOutFrames: number
 ): number {
-  const fadeIn = Math.min(
-    1,
-    interpolateClamped(frame, [0, fadeInFrames], [0, baseVolume])
-  );
-  const fadeOut = Math.min(
-    1,
-    interpolateClamped(
-      frame,
-      [totalFrames - fadeOutFrames, totalFrames - 1],
-      [1, 0]
-    )
+  const fadeIn = interpolateClamped(frame, [0, fadeInFrames], [0, baseVolume]);
+  const fadeOut = interpolateClamped(
+    frame,
+    [totalFrames - fadeOutFrames, totalFrames - 1],
+    [1, 0]
   );
   return fadeIn * fadeOut;
 }

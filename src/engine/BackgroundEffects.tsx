@@ -18,33 +18,9 @@ import {
   generateParticles,
   updateParticlePosition,
   breathe,
-  waveMotion,
-  type Particle,
 } from "./animations";
 
-// ---------------------------------------------------------------------------
-// Types
-// ---------------------------------------------------------------------------
-
-export type BackgroundEffectType =
-  | "orbs"
-  | "particles"
-  | "grid"
-  | "waves"
-  | "dots"
-  | "vignette";
-
-export interface BackgroundEffectConfig {
-  type: BackgroundEffectType;
-  /** Primary accent color (hex). Default "#4ade80". */
-  accentColor?: string;
-  /** Opacity/intensity multiplier (0-1). Default 0.5. */
-  intensity?: number;
-  /** For "orbs": number of orbs (1-3). Default 1. */
-  orbCount?: number;
-  /** For "particles": number of particles. Default 40. */
-  particleCount?: number;
-}
+import { type BackgroundEffectConfig } from "./types";
 
 // ---------------------------------------------------------------------------
 // Orb background (from hyperniche launch video)

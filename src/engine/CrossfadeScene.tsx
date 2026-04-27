@@ -58,13 +58,8 @@ export const CrossfadeScene: React.FC<CrossfadeSceneProps> = ({
     });
   } else {
     // Asymmetric easing to reduce muddy overlap on dark scenes
-    if (frame <= fadeIn) {
-      opacity = interpolate(frame, [0, fadeIn], [0, 1], {
-        extrapolateLeft: "clamp",
-        extrapolateRight: "clamp",
-        easing: Easing.out(Easing.cubic),
-      });
-    } else if (frame >= durationInFrames - fadeOut) {
+    // Fade-out takes precedence when fadeIn + fadeOut > durationInFrames
+    if (frame >= durationInFrames - fadeOut) {
       opacity = interpolate(
         frame,
         [durationInFrames - fadeOut, durationInFrames],
@@ -75,6 +70,12 @@ export const CrossfadeScene: React.FC<CrossfadeSceneProps> = ({
           easing: Easing.in(Easing.cubic),
         }
       );
+    } else if (frame <= fadeIn) {
+      opacity = interpolate(frame, [0, fadeIn], [0, 1], {
+        extrapolateLeft: "clamp",
+        extrapolateRight: "clamp",
+        easing: Easing.out(Easing.cubic),
+      });
     } else {
       opacity = 1;
     }
