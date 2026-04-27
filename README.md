@@ -6,6 +6,72 @@ Open-source, AI-powered video production engine built on Remotion. Define a time
 
 Built for product demo videos, LinkedIn content, and social media clips: word-level captions/subtitles, face-cam bubbles, keyword overlays, notification banners, title/end cards.
 
+---
+
+## Quick Start
+
+Get a rendered MP4 in 5 minutes:
+
+```bash
+# 1. Install
+git clone https://github.com/federicodeponte/opencut.git
+cd opencut
+npm install
+
+# 2. Scaffold a new video
+npx ts-node src/cli/init.ts my-video
+
+# 3. Drop facecam.mp4 into public/
+
+# 4. Edit src/examples/my-video/timeline.ts
+
+# 5. Validate
+npx ts-node src/cli/validate.ts src/examples/my-video/timeline.ts
+
+# 6. Render
+npx ts-node src/cli/render.ts my-video
+```
+
+Find your video in `out/my-video.mp4`.
+
+For a step-by-step guide, see **[QUICKSTART.md](./QUICKSTART.md)**.
+
+---
+
+## Workflow
+
+```
+Record ──► Transcribe ──► Configure ──► Validate ──► Render
+  │            │              │             │            │
+  │            │              │             │            ▼
+facecam    Whisper CLI    timeline.ts   validate.ts   out/*.mp4
++ screen   --word_        + config.ts   checks assets
+           timestamps
+```
+
+1. **Record** raw facecam footage, screen recordings, and screenshots.
+2. **Transcribe** with Whisper (`--word_timestamps True`) for word-level captions.
+3. **Configure** your timeline and video settings in TypeScript.
+4. **Validate** that all assets exist and timings line up.
+5. **Render** with Remotion.
+
+---
+
+## CLI Commands
+
+| Command | What it does |
+|---------|-------------|
+| `npx ts-node src/cli/init.ts <name>` | Scaffold `src/examples/<name>/` with config, timeline, subtitles, Root.tsx, and index.ts. |
+| `npx ts-node src/cli/transcribe.ts <video>` | Run Whisper (if installed) or create an empty `subtitles.ts` template. |
+| `npx ts-node src/cli/validate.ts <timeline.ts>` | Check asset paths, segment durations, and timeline contiguity. |
+| `npx ts-node src/cli/render.ts <name>` | Render the full video for a project. |
+| `npx ts-node src/cli/render.ts <name> --preview` | Render only the first 5 seconds for a quick sanity check. |
+| `npm run typecheck` | Run `tsc --noEmit` across the repo. |
+| `npm run test-render` | Render a 5-second test of the built-in quickstart example. |
+| `npx remotion studio src/examples/<name>/index.ts` | Open the Remotion preview UI in the browser. |
+
+---
+
 ## What's new
 
 - **Generative background effects** — Layer animated orbs, particles, grid, waves, dots, or vignette behind any segment without extra assets.
@@ -33,38 +99,6 @@ Built for product demo videos, LinkedIn content, and social media clips: word-le
 | [Whisper](https://github.com/openai/whisper) | AI speech-to-text for word-level captions |
 | TypeScript + React | Type-safe timeline and component authoring |
 
-## How it works
-
-```
-Record (facecam + screen)
-    |
-Transcribe (Whisper --word_timestamps)
-    |
-Define timeline (array of TimelineSegments)
-    |
-Render (Remotion CLI)
-    |
-out/video.mp4
-```
-
-1. **Record** raw facecam footage, screen recordings, and screenshots.
-2. **Transcribe** with Whisper (AI speech-to-text) using `--word_timestamps True` for word-level captions and timing.
-3. **Define a timeline** as an array of `TimelineSegment` objects that map sections of your recording to visual backgrounds and overlays.
-4. **Configure** playback rate, resolution, facecam path, and background music in a `VideoConfig`.
-5. **Render** with the Remotion CLI.
-
-## Quick start
-
-```bash
-npm install
-
-# Preview in browser (requires assets in public/)
-npm run preview
-
-# Render full video
-npm run render
-```
-
 ## Project structure
 
 ```
@@ -85,9 +119,16 @@ src/
     animations.ts           # Pure animation utilities (particles, easing, Ken Burns, etc.)
     MusicSync.ts            # Beat-to-frame math and synced volume curves
     index.ts                # Public API exports
+  cli/
+    init.ts                 # Scaffold a new video project
+    transcribe.ts           # Whisper wrapper / subtitle template generator
+    validate.ts             # Timeline and asset validator
+    render.ts               # Render helper by project name
   examples/
+    quickstart/             # Minimal 2-segment example (title + end card)
     openslides/             # Example: OpenSlides product demo
     format-demo/            # Example: background effects, typing text, and multi-format compositions
+    ai-engineer-basics/     # Example: long-form educational video
 ```
 
 ## Creating a new video

@@ -1,0 +1,76 @@
+{
+  "name": "Kinetic Typography",
+  "format": "vertical",
+  "facecam": "facecam.mp4",
+  "playbackRate": 1.0,
+  "title": "Kinetic Typography",
+  "endCardTitle": "Kinetic Typography",
+  "segments": [
+    {
+      "type": "kinetic-text",
+      "duration": 4,
+      "kineticText": {
+        "text": "ATTENTION",
+        "highlightWords": ["ATTENTION"],
+        "accentColor": "#ef4444"
+      },
+      "backgroundEffect": {
+        "type": "particles",
+        "accentColor": "#ef4444",
+        "intensity": 0.7,
+        "particleCount": 60
+      }
+    },
+    {
+      "type": "kinetic-text",
+      "duration": 4,
+      "kineticText": {
+        "text": "GRABS YOU",
+        "highlightWords": ["GRABS"],
+        "accentColor": "#3b82f6"
+      },
+      "backgroundEffect": {
+        "type": "waves",
+        "accentColor": "#3b82f6",
+        "intensity": 0.6
+      }
+    },
+    {
+      "type": "video-background",
+      "duration": 5,
+      "videoBackground": {
+        "videoUrl": "bg-video.mp4",
+        "opacity": 0.4,
+        "blur": 5,
+        "darken": 0.3
+      },
+      "kineticText": {
+        "text": "CINEMATIC",
+        "accentColor": "#a855f7"
+      }
+    },
+    {
+      "type": "kinetic-text",
+      "duration": 4,
+      "kineticText": {
+        "text": "KEEP WATCHING",
+        "accentColor": "#f59e0b"
+      },
+      "backgroundEffect": {
+        "type": "grid",
+        "accentColor": "#f59e0b",
+        "intensity": 0.4
+      }
+    },
+    {
+      "type": "facecam-full",
+      "duration": 3,
+      "showEndCard": true,
+      "backgroundEffect": {
+        "type": "vignette",
+        "accentColor": "#000000",
+        "intensity": 0.8
+      }
+    }
+  ]
+}

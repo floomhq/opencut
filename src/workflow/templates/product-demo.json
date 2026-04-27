@@ -1,0 +1,82 @@
+{
+  "name": "Product Demo",
+  "format": "horizontal",
+  "facecam": "facecam.mp4",
+  "music": "bg-music.mp3",
+  "playbackRate": 1.3,
+  "title": "Product Demo",
+  "subtitle": "See it in action",
+  "endCardTitle": "Product Demo",
+  "endCardCta": "Try it free",
+  "segments": [
+    {
+      "type": "facecam-full",
+      "duration": 8,
+      "showTitleCard": true,
+      "keywords": [
+        { "text": "The Hook", "startSec": 2, "endSec": 6 }
+      ]
+    },
+    {
+      "type": "screen-video",
+      "duration": 15,
+      "screenVideo": "demo.mp4",
+      "faceBubble": "bottom-left",
+      "callouts": [
+        { "text": "New Feature", "position": "top-right", "delaySec": 2, "durationSec": 4 }
+      ]
+    },
+    {
+      "type": "app-mockup",
+      "duration": 10,
+      "faceBubble": "bottom-left",
+      "appMockup": {
+        "title": "My App",
+        "tabs": [
+          { "name": "Dashboard", "active": true },
+          { "name": "Settings", "active": false }
+        ],
+        "rows": [
+          { "label": "Users", "value": "1,234", "score": 95, "intent": "success" },
+          { "label": "Revenue", "value": "$12K", "score": 88, "intent": "success" }
+        ],
+        "accentColor": "#4ade80"
+      }
+    },
+    {
+      "type": "comparison",
+      "duration": 10,
+      "faceBubble": "hidden",
+      "comparison": {
+        "title": "Us vs Them",
+        "rows": [
+          {
+            "name": "Us",
+            "features": { "Speed": true, "Price": true, "Design": true },
+            "highlight": true
+          },
+          {
+            "name": "Them",
+            "features": { "Speed": false, "Price": false, "Design": true }
+          }
+        ],
+        "featureLabels": ["Speed", "Price", "Design"],
+        "accentColor": "#4ade80"
+      }
+    },
+    {
+      "type": "cta",
+      "duration": 5,
+      "showEndCard": true,
+      "kineticText": {
+        "text": "Get Started Today",
+        "accentColor": "#3b82f6"
+      },
+      "backgroundEffect": {
+        "type": "waves",
+        "accentColor": "#3b82f6",
+        "intensity": 0.5
+      }
+    }
+  ]
+}
