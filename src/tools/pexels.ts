@@ -1,6 +1,7 @@
 import axios from "axios";
 import fs from "fs";
 import path from "path";
+import { requireEnv } from "../env";
 
 export interface PexelsVideo {
   id: number;
@@ -47,10 +48,7 @@ export async function searchVideos(
   query: string,
   targetDurationSec: number,
 ): Promise<PexelsVideo[]> {
-  const apiKey = process.env.PEXELS_API_KEY;
-  if (!apiKey) {
-    throw new Error("PEXELS_API_KEY environment variable is not set");
-  }
+  const apiKey = requireEnv("PEXELS_API_KEY");
 
   const response = await axios.get<PexelsSearchResponse>(
     "https://api.pexels.com/videos/search",
@@ -232,7 +230,7 @@ export function buildBrollTimelineSnippet(
   results: BrollResult[],
   segmentDurationSec: number = 5,
 ): unknown[] {
-  return results.map((r, i) => ({
+  return results.map((_r, i) => ({
     id: `broll-${i + 1}`,
     type: "facecam-full",
     facecamStartSec: i * segmentDurationSec,

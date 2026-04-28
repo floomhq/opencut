@@ -65,7 +65,6 @@ const styleConfig: Record<
 
 export const NotificationBanner: React.FC<NotificationBannerProps> = ({
   messages,
-  segmentRawStartSec,
   playbackRate,
   notificationStyle = "whatsapp",
 }) => {

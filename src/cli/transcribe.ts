@@ -39,15 +39,6 @@ interface WhisperJson {
   segments: WhisperSegment[];
 }
 
-interface TimelineSegment {
-  id: string;
-  type: string;
-  facecamStartSec: number;
-  durationSec: number;
-  faceBubble: string;
-  showSubtitles: boolean;
-}
-
 // ---------------------------------------------------------------------------
 // Argument parsing
 // ---------------------------------------------------------------------------
@@ -80,7 +71,9 @@ function isWhisperAvailable(): boolean {
   try {
     execSync("whisper --version", { stdio: "pipe" });
     return true;
-  } catch {
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.debug(`Whisper not available: ${msg}`);
     return false;
   }
 }
@@ -179,8 +172,9 @@ function detectProject(videoPath: string): string | null {
       if (content.includes(videoBasename)) {
         return dir;
       }
-    } catch {
-      // ignore unreadable
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      console.debug(`Could not read config ${configPath}: ${msg}`);
     }
   }
 

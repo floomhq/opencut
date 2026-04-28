@@ -148,7 +148,9 @@ app.post("/facecam", upload.single("video"), (req: Request, res: Response) => {
   res.status(202).json({ jobId: job.jobId });
 });
 
-const PORT = Number(process.env.PORT ?? 3100);
+import { env } from "../env";
+
+const PORT = env.PORT;
 app.listen(PORT, () => {
   console.log(`OpenCut API listening on :${PORT}`);
 });

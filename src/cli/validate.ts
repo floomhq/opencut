@@ -34,8 +34,11 @@ function loadTsModule<T>(filePath: string): Record<string, T> {
   // Ensure ts-node is active so .ts files can be required
   try {
     require("ts-node/register");
-  } catch {
+  } catch (err) {
     // ts-node may already be registered when running via npx ts-node
+    if (err instanceof Error && !err.message.includes("already registered")) {
+      console.debug("ts-node/register note:", err.message);
+    }
   }
   delete require.cache[require.resolve(filePath)];
   return require(filePath) as Record<string, T>;
@@ -126,7 +129,9 @@ async function getVideoDuration(videoPath: string): Promise<number | null> {
     );
     const val = parseFloat(stdout.trim());
     return isNaN(val) ? null : val;
-  } catch {
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.debug(`ffprobe failed (${msg}); skipping duration check.`);
     return null;
   }
 }
@@ -336,7 +341,6 @@ export async function runChecks(
 
   // 9. A/V sync
   const totalRawDuration = timeline.reduce((sum, s) => sum + s.durationSec, 0);
-  const expectedOutputDuration = totalRawDuration / config.playbackRate;
 
   if (config.facecamAsset) {
     const facecamPath = path.join(publicDir, config.facecamAsset);
@@ -407,8 +411,9 @@ async function main() {
         v !== null && typeof v === "object" && "playbackRate" in v
       );
       if (found) config = found;
-    } catch {
-      console.warn("⚠️  Could not load config.ts; using default config for validation.");
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      console.warn(`⚠️  Could not load config.ts (${msg}); using default config for validation.`);
     }
   }
 

@@ -14,7 +14,6 @@ export interface FacecamRequest {
 
 function buildSegmentsFromTranscript(
   segments: Array<{ startSec: number; endSec: number; text: string }>,
-  playbackRate: number,
 ): { subtitleSegments: SubtitleSegment[]; timelineSegments: TimelineSegment[] } {
   const subtitleSegments: SubtitleSegment[] = segments.map((seg) => ({
     start: seg.startSec,
@@ -70,7 +69,6 @@ export async function runFacecamPipeline(req: FacecamRequest): Promise<void> {
     updateJob(jobId, { phase: "building-timeline" });
     const { subtitleSegments, timelineSegments } = buildSegmentsFromTranscript(
       transcript.segments,
-      playbackRate,
     );
 
     // ── Step 3: Copy video into public/ so Remotion staticFile can serve it ──

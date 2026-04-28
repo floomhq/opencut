@@ -13,9 +13,10 @@ export interface TranscriptResult {
   segments: TranscriptSegment[];
 }
 
+import { requireEnv } from "../env";
+
 export async function transcribeVideo(videoPath: string): Promise<TranscriptResult> {
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) throw new Error("GEMINI_API_KEY is not set");
+  const apiKey = requireEnv("GEMINI_API_KEY");
 
   const fileManager = new GoogleAIFileManager(apiKey);
 

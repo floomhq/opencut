@@ -12,7 +12,7 @@
  *   npx ts-node src/cli/render.ts src/my-project --watch
  */
 
-import { execSync } from "child_process";
+import { execFileSync } from "child_process";
 import fs from "fs";
 import path from "path";
 import { loadProject } from "../workflow/VideoProject";
@@ -71,17 +71,17 @@ export function parseFramesArg(args: string[]): string | null {
   return null;
 }
 
-function buildRenderCommand(
+function buildRenderArgs(
   entryPoint: string,
   compositionId: string,
   outputPath: string,
   frames: string | null
-): string {
-  let cmd = `timeout 10m npx remotion render ${entryPoint} ${compositionId} ${outputPath}`;
+): string[] {
+  const args = ["remotion", "render", entryPoint, compositionId, outputPath];
   if (frames) {
-    cmd += ` --frames=${frames}`;
+    args.push(`--frames=${frames}`);
   }
-  return cmd;
+  return args;
 }
 
 function runRender(
@@ -91,7 +91,7 @@ function runRender(
   frames: string | null,
   projectName?: string
 ): void {
-  const cmd = buildRenderCommand(entryPoint, compositionId, outputPath, frames);
+  const args = buildRenderArgs(entryPoint, compositionId, outputPath, frames);
 
   console.log(`\nRendering "${projectName || compositionId}"...`);
   console.log(`  Entry:   ${entryPoint}`);
@@ -100,9 +100,9 @@ function runRender(
   if (frames) {
     console.log(`  Frames:  ${frames}`);
   }
-  console.log(`> ${cmd}`);
+  console.log(`> npx ${args.join(" ")}`);
 
-  execSync(cmd, { stdio: "inherit" });
+  execFileSync("npx", args, { stdio: "inherit", timeout: 10 * 60 * 1000 });
 }
 
 function watchProject(
@@ -129,8 +129,9 @@ function watchProject(
   try {
     runRender(entryPoint, compositionId, outputPath, frames, projectName);
     console.log("\n✅ Initial render complete. Waiting for changes...\n");
-  } catch {
-    console.log("\n⚠️  Initial render failed. Fix errors and save to retry.\n");
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.log(`\n⚠️  Initial render failed: ${msg}\n`);
   }
 
   const watchers = watchFiles.map((file) =>
@@ -143,13 +144,15 @@ function watchProject(
           try {
             const rootTsx = path.join(dir, "Root.tsx");
             currentCompId = extractCompositionId(rootTsx);
-          } catch {
-            // keep existing
+          } catch (err) {
+            const msg = err instanceof Error ? err.message : String(err);
+            console.debug(`Could not re-extract composition id: ${msg}`);
           }
           runRender(entryPoint, currentCompId, outputPath, frames, projectName);
           console.log("\n✅ Render complete. Waiting for changes...\n");
-        } catch {
-          console.log("\n❌ Render failed. Fix errors and save to retry.\n");
+        } catch (err) {
+          const msg = err instanceof Error ? err.message : String(err);
+          console.log(`\n❌ Render failed: ${msg}\n`);
         }
       }
     })
@@ -187,8 +190,9 @@ function main() {
     dir = path.dirname(abs);
     try {
       project = loadProject(abs);
-    } catch {
-      // ignore
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      console.debug(`Could not load project from file: ${msg}`);
     }
   } else {
     dir = abs;
@@ -196,8 +200,9 @@ function main() {
     try {
       const projectFile = findProjectFile(abs);
       project = loadProject(projectFile);
-    } catch {
-      // No project config — we'll work with the generated TS files directly
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      console.debug(`No project config found: ${msg}`);
     }
   }
 
@@ -222,9 +227,8 @@ function main() {
 
   if (preview) {
     console.log(`Opening Remotion studio for "${project?.name || compositionId}"...`);
-    const cmd = `npx remotion studio ${entryPoint}`;
-    console.log(`> ${cmd}`);
-    execSync(cmd, { stdio: "inherit" });
+    console.log(`> npx remotion studio ${entryPoint}`);
+    execFileSync("npx", ["remotion", "studio", entryPoint], { stdio: "inherit" });
     return;
   }
 
