@@ -42,6 +42,7 @@ import type {
   CardStyle,
   EndCardStyle,
 } from "./types";
+import { getSegmentRenderer } from "./plugin";
 
 // ---------------------------------------------------------------------------
 // Internal sub-components
@@ -251,6 +252,9 @@ export const Segment: React.FC<SegmentProps> = ({
 
   const { playbackRate, width, height, facecamAsset } = videoConfig;
 
+  // Check for plugin-provided custom segment renderer
+  const CustomRenderer = getSegmentRenderer(segment.type);
+
   const facecamFilter = "contrast(1.05) saturate(1.1)";
 
   // Ken Burns: slow zoom 100% -> 105% for facecam-full
@@ -288,6 +292,18 @@ export const Segment: React.FC<SegmentProps> = ({
         backgroundColor: "#0a0a0a",
       }}
     >
+      {/* Plugin custom segment renderer */}
+      {CustomRenderer && (
+        <CustomRenderer
+          segment={segment}
+          frame={frame}
+          fps={fps}
+          width={width}
+          height={height}
+          playbackRate={playbackRate}
+        />
+      )}
+
       {/* Facecam full background */}
       {segment.type === "facecam-full" && (
         <div

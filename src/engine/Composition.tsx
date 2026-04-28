@@ -10,6 +10,7 @@
 import React from "react";
 import { Audio, Sequence, staticFile, useVideoConfig } from "remotion";
 import { Segment } from "./Segment";
+import { applyTimelineTransforms } from "./plugin";
 import type {
   TimelineSegment,
   VideoConfig,
@@ -61,6 +62,9 @@ export const VideoComposition: React.FC<VideoCompositionProps> = ({
 }) => {
   const { fps } = useVideoConfig();
 
+  // Apply plugin timeline transforms
+  const transformedTimeline = applyTimelineTransforms(timeline);
+
   // Build the sequence layout
   let outputFrameOffset = 0;
   const sequences: Array<{
@@ -69,7 +73,7 @@ export const VideoComposition: React.FC<VideoCompositionProps> = ({
     durationFrames: number;
   }> = [];
 
-  for (const seg of timeline) {
+  for (const seg of transformedTimeline) {
     const outputDurationSec = seg.durationSec / videoConfig.playbackRate;
     const durationFrames = Math.round(outputDurationSec * fps);
     sequences.push({

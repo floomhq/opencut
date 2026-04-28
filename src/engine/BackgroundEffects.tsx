@@ -18,6 +18,7 @@ import { generateParticles, updateParticlePosition } from "./animation/particles
 import { breathe } from "./animation/motion";
 
 import { type BackgroundEffectConfig } from "./types";
+import { getBackgroundEffectRenderer } from "./plugin";
 
 // ---------------------------------------------------------------------------
 // Orb background (from hyperniche launch video)
@@ -280,6 +281,12 @@ export const BackgroundEffects: React.FC<{
     orbCount = 1,
     particleCount = 40,
   } = config;
+
+  const frame = useCurrentFrame();
+  const CustomEffect = getBackgroundEffectRenderer(type);
+  if (CustomEffect) {
+    return <CustomEffect config={config} frame={frame} width={1920} height={1080} />;
+  }
 
   switch (type) {
     case "orbs":

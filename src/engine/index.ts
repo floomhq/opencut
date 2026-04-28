@@ -28,6 +28,22 @@ export { AudioWaveform } from "./AudioWaveform";
 export { VideoBackground } from "./VideoBackground";
 export { FormatAdapter, getFormatDimensions } from "./FormatAdapter";
 
+// Plugin system
+export {
+  registerPlugin,
+  unregisterPlugin,
+  clearPlugins,
+  getPlugins,
+  getSegmentRenderer,
+  getBackgroundEffectRenderer,
+  applyTimelineTransforms,
+} from "./plugin";
+export type {
+  OpenCutPlugin,
+  SegmentRendererProps,
+  BackgroundEffectProps,
+} from "./plugin";
+
 // Types
 export type {
   // Core data
