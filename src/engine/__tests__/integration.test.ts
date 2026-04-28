@@ -10,6 +10,40 @@ import { computeTotalFrames } from "../index";
 import { QUICKSTART_CONFIG } from "../../examples/quickstart/config";
 import { TIMELINE as QUICKSTART_TIMELINE } from "../../examples/quickstart/timeline";
 
+function findChrome(): string | null {
+  const candidates = [
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+    "/usr/bin/google-chrome",
+    "/usr/bin/google-chrome-stable",
+    "/usr/bin/chromium",
+    "/usr/bin/chromium-browser",
+    "/opt/google/chrome/chrome",
+  ];
+  for (const c of candidates) {
+    if (fs.existsSync(c)) return c;
+  }
+  try {
+    return execSync("which google-chrome || which chromium || which chromium-browser", {
+      encoding: "utf-8",
+    }).trim();
+  } catch {
+    return null;
+  }
+}
+
+function hasFfmpeg(): boolean {
+  try {
+    execSync("ffmpeg -version", { stdio: "ignore" });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+const isCI = process.env.CI === "true";
+const chromePath = findChrome();
+const canRender = !isCI && chromePath !== null && hasFfmpeg();
+
 describe("integration: computeTotalFrames", () => {
   it("computes correct total frames for quickstart", () => {
     const frames = computeTotalFrames(QUICKSTART_TIMELINE, QUICKSTART_CONFIG);
@@ -20,6 +54,13 @@ describe("integration: computeTotalFrames", () => {
 
 describe("integration: renderStill", () => {
   it("renders frame 0 of QuickstartPreview as PNG", async () => {
+    if (!canRender) {
+      console.log(
+        `Skipping renderStill test: CI=${isCI}, chrome=${chromePath ?? "not found"}, ffmpeg=${hasFfmpeg()}`
+      );
+      return;
+    }
+
     const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "opencut-integration-"));
     const outputPath = path.join(tmpDir, "frame-0.png");
     const publicDir = path.resolve(__dirname, "../../../public");
@@ -47,7 +88,7 @@ describe("integration: renderStill", () => {
 
       // Get actual composition from bundle
       const compositions = await getCompositions(serveUrl, {
-        browserExecutable: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        browserExecutable: chromePath!,
         logLevel: "error",
       });
 
@@ -61,7 +102,7 @@ describe("integration: renderStill", () => {
         frame: 0,
         output: outputPath,
         imageFormat: "png",
-        browserExecutable: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        browserExecutable: chromePath!,
         logLevel: "error",
       });
 
