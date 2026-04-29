@@ -1,7 +1,7 @@
 {
   "name": "opencut",
   "version": "0.1.0",
-  "description": "Remotion-based video production engine. Record, transcribe, compose, render.",
+  "description": "Open-source AI video production engine. Code-driven video editing with Whisper subtitles, React components, and Remotion rendering.",
   "license": "MIT",
   "author": "Federico De Ponte <depontefede@gmail.com>",
   "repository": {

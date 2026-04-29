@@ -1,6 +1,9 @@
 <h1 align="center">OpenCut — AI Video Production Engine</h1>
 
 <p align="center">
+  <a href="https://www.npmjs.com/package/opencut">
+    <img src="https://img.shields.io/npm/v/opencut.svg" alt="npm version">
+  </a>
   <a href="https://github.com/floomhq/opencut/blob/main/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License">
   </a>
@@ -125,13 +128,17 @@ cd opencut
 npm install
 ```
 
-### npm (coming soon)
+### npm
 
 ```bash
 npm install -g opencut
 ```
 
-> **Note:** OpenCut is not yet published to npm. Track progress in [this issue](https://github.com/floomhq/opencut/issues).
+Or install locally in your project:
+
+```bash
+npm install opencut
+```
 
 ---
 
